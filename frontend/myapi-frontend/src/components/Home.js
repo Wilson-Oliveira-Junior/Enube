@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const Home = () => {
+const Home = ({ token }) => {
   const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/data', {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    })
-    .then(response => {
-      setData(response.data);
-    })
-    .catch(error => {
-      console.error('There was an error fetching the data!', error);
-    });
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/data', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setData(response.data);
+      } catch (error) {
+        setError('Error fetching data');
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [token]);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div>
       <h1>Home</h1>
       <ul>
         {data.map(item => (
-          <li key={item.id}>{item.name}</li>
+          <li key={item.PartnerId}>
+            PartnerId: {item.PartnerId}, PartnerName: {item.PartnerName}, CustomerId: {item.CustomerId}, CustomerName: {item.CustomerName}
+          </li>
         ))}
       </ul>
     </div>

@@ -1,25 +1,41 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link, useRouteMatch } from 'react-router-dom';
-import Home from './Home';
-import AddData from './AddData';
-import EditData from './EditData';
-import Sidebar from './Sidebar';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const Dashboard = () => {
-  let { path, url } = useRouteMatch();
+const Dashboard = ({ token }) => {
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/data', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setData(response.data);
+      } catch (error) {
+        setError('Error fetching data');
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
+  }, [token]);
+  
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
-    <div className="dashboard">
-      <Router>
-        <Sidebar />
-        <div className="content">
-          <Switch>
-            <Route exact path={`${path}/`} component={Home} />
-            <Route path={`${path}/add`} component={AddData} />
-            <Route path={`${path}/edit`} component={EditData} />
-          </Switch>
-        </div>
-      </Router>
+    <div>
+      <h1>Dashboard</h1>
+      <ul>
+        {data.map(item => (
+          <li key={item.PartnerId}>
+            PartnerId: {item.PartnerId}, PartnerName: {item.PartnerName}, CustomerId: {item.CustomerId}, CustomerName: {item.CustomerName}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

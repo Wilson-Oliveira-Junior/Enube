@@ -4,7 +4,6 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import './App.css';
 
-
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
@@ -12,12 +11,14 @@ const App = () => {
     <Router>
       <Switch>
         <Route path="/login">
+          {/* Passando setToken como prop para o componente Login */}
           <Login setToken={setToken} />
         </Route>
         <Route path="/dashboard">
-          {token ? <Dashboard /> : <Redirect to="/login" />}
+          {/* Passando token como prop para o componente Dashboard */}
+          {token ? <Dashboard token={token} /> : <Redirect to="/login" />}
         </Route>
-        <Route path="/">
+        <Route exact path="/">
           <Redirect to="/login" />
         </Route>
       </Switch>
