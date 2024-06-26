@@ -12,16 +12,16 @@ MyAPI é uma API desenvolvida em Golang utilizando o framework Gin. Esta API ofe
 
 1. Clone o repositório:
 
+- Copiar código:
 ```bash
-Copiar código
 git clone https://github.com/seu-usuario/myapi.git
 cd myapi
 ```
 
 2. Instale as dependências:
 
+- Copiar código:
 ```bash
-Copiar código
 go mod tidy
 
 ```
@@ -29,8 +29,8 @@ go mod tidy
 3. Rodando a aplicação
 Para iniciar o servidor, execute:
 
+- Copiar código:
 ```bash
-Copiar código
 go run main.go
 
 ```
@@ -45,6 +45,7 @@ URL: POST /login
 - Corpo da Requisição:
    - json
 - Copiar código
+
 ```
 {
   "username": "user",
@@ -54,6 +55,7 @@ URL: POST /login
 - Resposta de Sucesso (200 OK):
    - json
 - Copiar código
+
 ```
 {
   "token": "mock-token"
@@ -62,6 +64,7 @@ URL: POST /login
 - Resposta de Falha (401 Unauthorized):
   - json
 - Copiar código
+
 ```
 {
   "error": "Unauthorized"
@@ -107,9 +110,10 @@ Authorization: Bearer mock-token
 
 ```
 URL: POST /upload
+```
 Corpo da Requisição:
-bash
-Copiar código
+
+```
 file=@path/to/your/file.xlsx
 ```
 - Resposta de Sucesso (200 OK):
@@ -137,7 +141,6 @@ file=@path/to/your/file.xlsx
 ## Autenticação com curl:
 
 ```bash
-Copiar código
 curl -X POST http://localhost:8080/login \
 -H "Content-Type: application/json" \
 -d '{"username": "user", "password": "pass"}'
@@ -145,14 +148,12 @@ curl -X POST http://localhost:8080/login \
 - Consulta de Dados Protegidos com curl:
 
 ```bash
-Copiar código
 curl -X GET http://localhost:8080/data \
 -H "Authorization: Bearer mock-token"
 ```
 - Upload de Arquivo XLSX com curl:
 
 ```bash
-Copiar código
 curl -X POST http://localhost:8080/upload \
 -F "file=@path/to/your/file.xlsx"
 ```
